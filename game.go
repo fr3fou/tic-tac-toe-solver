@@ -37,12 +37,27 @@ type Game struct {
 func NewGame() *Game {
 	return &Game{
 		Board: [Size][Size]Player{
-			{empty, PlayerX, PlayerO},
-			{PlayerX, PlayerO, PlayerX},
-			{empty, PlayerX, PlayerO},
+			{empty, empty, empty},
+			{empty, empty, empty},
+			{empty, empty, empty},
 		},
 		turnCount: 0,
 	}
+}
+
+func (g *Game) Place(i, j int) {
+	// Prevent placing on occupied cells
+	if g.Board[i][j] != empty {
+		return
+	}
+
+	candidate := PlayerO
+	if g.turnCount%2 != 0 {
+		candidate = PlayerX
+	}
+
+	g.Board[i][j] = candidate
+	g.turnCount++
 }
 
 func (g *Game) Draw() {

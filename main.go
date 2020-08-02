@@ -26,7 +26,7 @@ func main() {
 			i := int(x) / CellSize
 			j := int(y) / CellSize
 			// We swap i and j because the matrix is transposed
-			g.Place(i, j)
+			g.Place(j, i)
 		}
 
 		g.Draw()
