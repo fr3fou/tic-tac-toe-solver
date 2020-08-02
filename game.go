@@ -48,7 +48,7 @@ func NewGame() *Game {
 func (g *Game) Draw() {
 	rl.ClearBackground(rl.Gray)
 
-	for i, row := range g.Board {
+	for i, row := range transpose(g.Board) {
 		for j, square := range row {
 			x := int32(i*CellSize + LineThickness*i)
 			y := int32(j*CellSize + LineThickness*j)
@@ -67,4 +67,16 @@ func (g *Game) Draw() {
 			rl.DrawText(square.String(), x+CellSize/5, y+CellSize/20, CellSize, color)
 		}
 	}
+}
+
+func transpose(arr [Size][Size]Player) [Size][Size]Player {
+	t := [Size][Size]Player{}
+
+	for i, row := range arr {
+		for j, square := range row {
+			t[j][i] = square
+		}
+	}
+
+	return t
 }
