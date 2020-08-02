@@ -138,7 +138,7 @@ func (g *Game) IsGameOver() (bool, Player) {
 	// Secondary diagonal
 	wonDiagonally = true
 	for i := len(g.Board) - 1; i >= 0; i-- {
-		if g.Board[i][i] != recentPlayer {
+		if g.Board[i][(Size-1)-i] != recentPlayer {
 			wonDiagonally = false
 			break
 		}
