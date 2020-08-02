@@ -3,9 +3,9 @@ package main
 import rl "github.com/gen2brain/raylib-go/raylib"
 
 const (
-	Width         = 800
-	Height        = 800
 	LineThickness = 2
+	Width         = 800 + LineThickness
+	Height        = 800 + LineThickness
 	CellSize      = (Width - LineThickness*2) / 3
 )
 
