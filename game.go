@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -153,7 +151,6 @@ func (g *Game) IsGameOver() (bool, Player) {
 	if g.turnCount == Size*Size {
 		return true, None
 	}
-	fmt.Println("...")
 
 	return false, None
 }
