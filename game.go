@@ -84,17 +84,74 @@ func (g *Game) Draw() {
 	}
 }
 
-type State int
+// GameOver checks if the game is over and returns the winning player if there is one.
+// true and either `PlayerX` or `PlayerO` are returned if there is a winner.
+// true and `None` are returned if there is a draw.
+// false and `None` are returned if the game isn't over yet.
+func (g *Game) GameOver() (bool, Player) {
+	// Only the most recently played player can have made a winning placement
+	recentPlayer := PlayerO
+	if g.turnCount%2 != 0 {
+		recentPlayer = PlayerX
+	}
 
-const (
-	GameOver State = iota
-	Draw
-	XWins
-	OWins
-)
+	// Horizontal check
+	for _, row := range g.Board {
+		if all(row[:], recentPlayer) {
+			return true, recentPlayer
+		}
+	}
 
-// func (g *Game) State() State {
-// }
+	// Verical check
+	for _, row := range transpose(g.Board) {
+		if all(row[:], recentPlayer) {
+			return true, recentPlayer
+		}
+	}
+
+	// Primary diagonal
+	wonDiagonally := true
+	for i := 0; i < len(g.Board); i++ {
+		if g.Board[i][i] != recentPlayer {
+			wonDiagonally = false
+			break
+		}
+	}
+
+	if wonDiagonally {
+		return true, recentPlayer
+	}
+
+	// Secondary diagonal
+	wonDiagonally = true
+	for i := len(g.Board) - 1; i >= 0; i-- {
+		if g.Board[i][i] != recentPlayer {
+			wonDiagonally = false
+			break
+		}
+	}
+
+	if wonDiagonally {
+		return true, recentPlayer
+	}
+
+	if g.turnCount == Size*Size {
+		return true, None
+	}
+
+	return false, None
+}
+
+// all checks if all the variables in the array are equal to the player passed
+func all(arr []Player, player Player) bool {
+	for _, elem := range arr {
+		if elem != player {
+			return false
+		}
+	}
+
+	return true
+}
 
 func transpose(arr [Size][Size]Player) [Size][Size]Player {
 	t := [Size][Size]Player{}
