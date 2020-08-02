@@ -7,8 +7,8 @@ import (
 type Player int
 
 const (
-	// empty is the default value
-	empty Player = iota
+	// None is the default value
+	None Player = iota
 	PlayerX
 	PlayerO
 )
@@ -16,9 +16,9 @@ const (
 func (p Player) String() string {
 	switch p {
 	case PlayerO:
-		return "O"
+		return "o"
 	case PlayerX:
-		return "X"
+		return "x"
 	default:
 		return " "
 	}
@@ -37,9 +37,9 @@ type Game struct {
 func NewGame() *Game {
 	return &Game{
 		Board: [Size][Size]Player{
-			{empty, empty, empty},
-			{empty, empty, empty},
-			{empty, empty, empty},
+			{None, None, None},
+			{None, None, None},
+			{None, None, None},
 		},
 		turnCount: 0,
 	}
@@ -47,7 +47,7 @@ func NewGame() *Game {
 
 func (g *Game) Place(i, j int) {
 	// Prevent placing on occupied cells
-	if g.Board[i][j] != empty {
+	if g.Board[i][j] != None {
 		return
 	}
 
@@ -70,7 +70,7 @@ func (g *Game) Draw() {
 			rl.DrawRectangle(x, y, CellSize, CellSize, rl.Black)
 
 			// No need to render empty text
-			if square == empty {
+			if square == None {
 				continue
 			}
 
@@ -79,10 +79,22 @@ func (g *Game) Draw() {
 				color = rl.Blue
 			}
 
-			rl.DrawText(square.String(), x+CellSize/5, y+CellSize/20, CellSize, color)
+			rl.DrawText(square.String(), x+CellSize/4, y+CellSize/30, CellSize, color)
 		}
 	}
 }
+
+type State int
+
+const (
+	GameOver State = iota
+	Draw
+	XWins
+	OWins
+)
+
+// func (g *Game) State() State {
+// }
 
 func transpose(arr [Size][Size]Player) [Size][Size]Player {
 	t := [Size][Size]Player{}
