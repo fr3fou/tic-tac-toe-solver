@@ -102,7 +102,7 @@ func (g *Game) GameOver() (bool, Player) {
 		}
 	}
 
-	// Verical check
+	// Vertical check
 	for _, row := range transpose(g.Board) {
 		if all(row[:], recentPlayer) {
 			return true, recentPlayer
