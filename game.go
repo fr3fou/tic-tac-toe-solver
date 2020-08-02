@@ -78,9 +78,14 @@ func (g *Game) Draw() {
 				continue
 			}
 
-			color := rl.Red
-			if square == PlayerX {
+			var color rl.Color
+			switch {
+			case g.Winner == None && g.IsOver:
+				color = rl.Gray
+			case square == PlayerX, g.Winner == PlayerX:
 				color = rl.Blue
+			case square == PlayerO, g.Winner == PlayerO:
+				color = rl.Red
 			}
 
 			rl.DrawText(square.String(), x+CellSize/4, y-CellSize/20, CellSize, color)

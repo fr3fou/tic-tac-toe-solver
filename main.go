@@ -29,6 +29,7 @@ func main() {
 			g.Place(j, i)
 		}
 
+		g.Update()
 		g.Draw()
 
 		rl.EndDrawing()
