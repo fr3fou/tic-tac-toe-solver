@@ -2,13 +2,24 @@ package main
 
 import rl "github.com/gen2brain/raylib-go/raylib"
 
+const (
+	Width         = 800
+	Height        = 800
+	LineThickness = 10
+	CellSize      = (Width - LineThickness*2) / 3
+)
+
 func main() {
-	rl.InitWindow(800, 800, "Tic Tac Toe - AI")
+	rl.InitWindow(Width, Height, "Tic Tac Toe - AI")
 	rl.SetTargetFPS(60)
+
+	g := NewGame()
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
-		rl.ClearBackground(rl.RayWhite)
+
+		g.Draw()
+
 		rl.EndDrawing()
 	}
 
