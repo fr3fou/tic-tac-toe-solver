@@ -82,9 +82,9 @@ func (g *Game) Draw() {
 			switch {
 			case g.Winner == None && g.IsOver:
 				color = rl.Gray
-			case square == PlayerX || g.Winner == PlayerX:
+			case (!g.IsOver && square == PlayerX) || g.Winner == PlayerX:
 				color = rl.Blue
-			case square == PlayerO || g.Winner == PlayerO:
+			case (!g.IsOver && square == PlayerO) || g.Winner == PlayerO:
 				color = rl.Red
 			}
 
@@ -105,7 +105,7 @@ func (g *Game) Update() {
 func (g *Game) IsGameOver() (bool, Player) {
 	// Only the most recently played player can have made a winning placement
 	recentPlayer := PlayerX
-	if g.turnCount%2 != 0 { // -1 because we wan't the previous turn
+	if g.turnCount%2 != 0 {
 		recentPlayer = PlayerO
 	}
 
