@@ -84,11 +84,15 @@ func (g *Game) Draw() {
 	}
 }
 
-// GameOver checks if the game is over and returns the winning player if there is one.
+func (g *Game) Update() {
+
+}
+
+// IsGameOver checks if the game is over and returns the winning player if there is one.
 // true and either `PlayerX` or `PlayerO` are returned if there is a winner.
 // true and `None` are returned if there is a draw.
 // false and `None` are returned if the game isn't over yet.
-func (g *Game) GameOver() (bool, Player) {
+func (g *Game) IsGameOver() (bool, Player) {
 	// Only the most recently played player can have made a winning placement
 	recentPlayer := PlayerO
 	if g.turnCount%2 != 0 {
@@ -141,7 +145,7 @@ func (g *Game) GameOver() (bool, Player) {
 	return false, None
 }
 
-// all checks if all the variables in the array are equal to the player passed
+// all checks if all the variables in the array are equal to the player passed.
 func all(arr []Player, player Player) bool {
 	for _, elem := range arr {
 		if elem != player {
@@ -153,13 +157,13 @@ func all(arr []Player, player Player) bool {
 }
 
 func transpose(arr [Size][Size]Player) [Size][Size]Player {
-	t := [Size][Size]Player{}
+	transposed := [Size][Size]Player{}
 
 	for i, row := range arr {
 		for j, square := range row {
-			t[j][i] = square
+			transposed[j][i] = square
 		}
 	}
 
-	return t
+	return transposed
 }
