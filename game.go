@@ -31,6 +31,8 @@ const Size = 3
 type Game struct {
 	Board     [Size][Size]Player
 	turnCount int
+	IsOver    bool
+	Winner    Player
 }
 
 // NewGame is a game constructor.
@@ -41,6 +43,8 @@ func NewGame() *Game {
 			{None, None, None},
 			{None, None, None},
 		},
+		IsOver:    false,
+		Winner:    None,
 		turnCount: 0,
 	}
 }
@@ -84,8 +88,9 @@ func (g *Game) Draw() {
 	}
 }
 
+// Update updates the state.
 func (g *Game) Update() {
-
+	g.IsOver, g.Winner = g.IsGameOver()
 }
 
 // IsGameOver checks if the game is over and returns the winning player if there is one.
