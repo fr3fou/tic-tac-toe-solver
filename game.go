@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -82,9 +84,9 @@ func (g *Game) Draw() {
 			switch {
 			case g.Winner == None && g.IsOver:
 				color = rl.Gray
-			case square == PlayerX, g.Winner == PlayerX:
+			case square == PlayerX || g.Winner == PlayerX:
 				color = rl.Blue
-			case square == PlayerO, g.Winner == PlayerO:
+			case square == PlayerO || g.Winner == PlayerO:
 				color = rl.Red
 			}
 
@@ -104,9 +106,9 @@ func (g *Game) Update() {
 // false and `None` are returned if the game isn't over yet.
 func (g *Game) IsGameOver() (bool, Player) {
 	// Only the most recently played player can have made a winning placement
-	recentPlayer := PlayerO
-	if g.turnCount%2 != 0 {
-		recentPlayer = PlayerX
+	recentPlayer := PlayerX
+	if g.turnCount%2 != 0 { // -1 because we wan't the previous turn
+		recentPlayer = PlayerO
 	}
 
 	// Horizontal check
@@ -151,6 +153,7 @@ func (g *Game) IsGameOver() (bool, Player) {
 	if g.turnCount == Size*Size {
 		return true, None
 	}
+	fmt.Println("...")
 
 	return false, None
 }
