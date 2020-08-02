@@ -79,7 +79,7 @@ func (g *Game) Draw() {
 				color = rl.Blue
 			}
 
-			rl.DrawText(square.String(), x+CellSize/4, y+CellSize/30, CellSize, color)
+			rl.DrawText(square.String(), x+CellSize/4, y-CellSize/20, CellSize, color)
 		}
 	}
 }
