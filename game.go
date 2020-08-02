@@ -117,7 +117,6 @@ func (g *Game) GameOver() (bool, Player) {
 			break
 		}
 	}
-
 	if wonDiagonally {
 		return true, recentPlayer
 	}
@@ -130,11 +129,11 @@ func (g *Game) GameOver() (bool, Player) {
 			break
 		}
 	}
-
 	if wonDiagonally {
 		return true, recentPlayer
 	}
 
+	// Draw check
 	if g.turnCount == Size*Size {
 		return true, None
 	}
