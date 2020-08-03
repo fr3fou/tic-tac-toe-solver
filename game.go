@@ -85,15 +85,8 @@ func (b Board) Winner(recentPlayer Player) (bool, Player) {
 		return true, recentPlayer
 	}
 
-	draw := true
+	draw := b.EmptySpots() == 0
 	// Check if there are empty squares
-	for _, row := range b {
-		for _, square := range row {
-			if square == None {
-				draw = false
-			}
-		}
-	}
 
 	return draw, None
 }

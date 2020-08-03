@@ -1,13 +1,38 @@
 package main
 
+// value should only be called at leaf / terminal nodes (game MUST be over).
 func value(b Board, player Player) int {
-	_, winner := b.Winner(player)
-	empty := b.EmptySpots()
-	val := 1
-	if winner != player {
-		val = -1
+	isOver, winner := b.Winner(player)
+
+	// Draws are 0
+	if winner == None && isOver {
+		return 0
 	}
-	return val + empty
+
+	empty := b.EmptySpots()
+	if winner != player {
+		// prevent 0 value
+		return min(-1, -empty)
+	}
+
+	// prevent 0 value
+	return max(1, empty)
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+
+	return b
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+
+	return b
 }
 
 func nextBoards(b Board, player Player) []Board {
