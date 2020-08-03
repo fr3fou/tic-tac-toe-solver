@@ -14,15 +14,6 @@ const (
 )
 
 func main() {
-	g := NewGame()
-	g.Place(1, 0)
-	boards := nextBoards(g.Board, PlayerX)
-	for _, board := range boards {
-		fmt.Println(board)
-	}
-}
-
-func _main() {
 	rl.InitWindow(Width, Height, "Tic Tac Toe - AI")
 	rl.SetTargetFPS(60)
 
@@ -38,6 +29,9 @@ func _main() {
 			j := int(y) / CellSize
 			// We swap i and j because the matrix is transposed
 			g.Place(j, i)
+		}
+		if g.IsOver {
+			fmt.Println(value(g.Board, PlayerO))
 		}
 
 		g.Update()
