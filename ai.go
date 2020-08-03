@@ -1,5 +1,10 @@
 package main
 
+func value(b Board, player Player) int {
+	_, _ = b.Winner(player)
+	return 0
+}
+
 func nextBoards(b Board, player Player) []Board {
 	boards := []Board{}
 

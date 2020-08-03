@@ -115,29 +115,29 @@ func (g *Game) Draw() {
 
 // Update updates the state.
 func (g *Game) Update() {
-	g.IsOver, g.Winner = g.IsGameOver()
-}
-
-// IsGameOver checks if the game is over and returns the winning player if there is one.
-// true and either `PlayerX` or `PlayerO` are returned if there is a winner.
-// true and `None` are returned if there is a draw.
-// false and `None` are returned if the game isn't over yet.
-func (g *Game) IsGameOver() (bool, Player) {
-	// Only the most recently played player can have made a winning placement
 	recentPlayer := PlayerX
 	if g.turnCount%2 != 0 {
 		recentPlayer = PlayerO
 	}
+	g.IsOver, g.Winner = g.Board.Winner(recentPlayer)
+}
+
+// Winner checks if the game is over and returns the winning player if there is one.
+// true and either `PlayerX` or `PlayerO` are returned if there is a winner.
+// true and `None` are returned if there is a draw.
+// false and `None` are returned if the game isn't over yet.
+func (b Board) Winner(recentPlayer Player) (bool, Player) {
+	// Only the most recently played player can have made a winning placement
 
 	// Horizontal check
-	for _, row := range g.Board {
+	for _, row := range b {
 		if all(row[:], recentPlayer) {
 			return true, recentPlayer
 		}
 	}
 
 	// Vertical check
-	for _, row := range transpose(g.Board) {
+	for _, row := range transpose(b) {
 		if all(row[:], recentPlayer) {
 			return true, recentPlayer
 		}
@@ -145,8 +145,8 @@ func (g *Game) IsGameOver() (bool, Player) {
 
 	// Primary diagonal
 	wonDiagonally := true
-	for i := 0; i < len(g.Board); i++ {
-		if g.Board[i][i] != recentPlayer {
+	for i := 0; i < len(b); i++ {
+		if b[i][i] != recentPlayer {
 			wonDiagonally = false
 			break
 		}
@@ -157,8 +157,8 @@ func (g *Game) IsGameOver() (bool, Player) {
 
 	// Secondary diagonal
 	wonDiagonally = true
-	for i := len(g.Board) - 1; i >= 0; i-- {
-		if g.Board[i][(Size-1)-i] != recentPlayer {
+	for i := len(b) - 1; i >= 0; i-- {
+		if b[i][(Size-1)-i] != recentPlayer {
 			wonDiagonally = false
 			break
 		}
@@ -167,12 +167,17 @@ func (g *Game) IsGameOver() (bool, Player) {
 		return true, recentPlayer
 	}
 
-	// Draw check
-	if g.turnCount == Size*Size {
-		return true, None
+	draw := true
+	// Check if there are empty squares
+	for _, row := range b {
+		for _, square := range row {
+			if square == None {
+				draw = false
+			}
+		}
 	}
 
-	return false, None
+	return draw, None
 }
 
 // all checks if all the variables in the array are equal to the player passed.
