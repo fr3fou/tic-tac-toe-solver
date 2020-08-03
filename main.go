@@ -19,18 +19,23 @@ func main() {
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
-		if rl.IsMouseButtonReleased(rl.MouseLeftButton) {
-			mousePos := rl.GetMousePosition()
-			x := mousePos.X
-			y := mousePos.Y
-			i := int(x) / CellSize
-			j := int(y) / CellSize
-			// We swap i and j because the matrix is transposed
-			g.Place(j, i)
-		}
 
 		g.Update()
 		g.Draw()
+
+		if !g.IsOver {
+			if rl.IsMouseButtonReleased(rl.MouseLeftButton) && g.CurrentPlayer == PlayerO {
+				mousePos := rl.GetMousePosition()
+				x := mousePos.X
+				y := mousePos.Y
+				i := int(x) / CellSize
+				j := int(y) / CellSize
+				// We swap i and j because the matrix is transposed
+				g.Place(j, i)
+			} else if g.CurrentPlayer == PlayerX {
+				Minimax(PlayerX, g)
+			}
+		}
 
 		rl.EndDrawing()
 	}

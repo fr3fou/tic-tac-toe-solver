@@ -1,6 +1,8 @@
 package main
 
-import "math"
+import (
+	"math"
+)
 
 // value should only be called at leaf / terminal nodes (game MUST be over).
 func value(b Board, player, winner Player) int {
@@ -37,7 +39,7 @@ func minimax(b Board, ai, current Player) int {
 		// Maximizing
 		max := math.Inf(-1)
 		for _, state := range nextBoards(b, current) {
-			value := minimax(state, ai, other)
+			value := minimax(state.Board, ai, other)
 			max = math.Max(max, float64(value))
 		}
 		return int(max)
@@ -45,7 +47,7 @@ func minimax(b Board, ai, current Player) int {
 		// Minimizing
 		min := math.Inf(1)
 		for _, state := range nextBoards(b, current) {
-			value := minimax(state, ai, other)
+			value := minimax(state.Board, ai, other)
 			min = math.Min(min, float64(value))
 		}
 		return int(min)
@@ -54,15 +56,16 @@ func minimax(b Board, ai, current Player) int {
 
 func Minimax(ai Player, g *Game) {
 	max := math.Inf(-1)
-	bestPos := Pos{}
-	for pos, state := range nextBoards(g.Board, ai) {
-		value := minimax(state, ai, ai)
-		if float64(value) > max {
-			bestPos = pos
+	bestState := State{}
+	for _, state := range nextBoards(g.Board, ai) {
+		value := float64(minimax(state.Board, ai, ai))
+		if value > max {
+			bestState = state
+			max = value
 		}
 	}
 
-	g.Place(bestPos.Y, bestPos.X)
+	g.Place(bestState.X, bestState.Y)
 }
 
 func min(a, b int) int {
@@ -81,13 +84,14 @@ func max(a, b int) int {
 	return b
 }
 
-type Pos struct {
-	X int
-	Y int
+type State struct {
+	X     int
+	Y     int
+	Board Board
 }
 
-func nextBoards(b Board, player Player) map[Pos]Board {
-	boards := map[Pos]Board{}
+func nextBoards(b Board, player Player) []State {
+	boards := []State{}
 
 	for i, row := range b {
 		for j, square := range row {
@@ -98,7 +102,11 @@ func nextBoards(b Board, player Player) map[Pos]Board {
 			board := copyBoard(b)
 
 			board[i][j] = player
-			boards[Pos{i, j}] = board
+			boards = append(boards, State{
+				X:     i,
+				Y:     j,
+				Board: board,
+			})
 		}
 	}
 

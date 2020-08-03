@@ -137,6 +137,7 @@ func (g *Game) Place(i, j int) {
 
 	g.Board[i][j] = g.CurrentPlayer
 	g.CurrentPlayer = otherPlayer(g.CurrentPlayer)
+	fmt.Printf("current player changed to %s\n", g.CurrentPlayer)
 }
 
 func (g *Game) Draw() {
