@@ -1,11 +1,11 @@
 package main
 
-// value should only be called at leaf / terminal nodes (game MUST be over).
-func value(b Board, player Player) int {
-	isOver, winner := b.Winner(player)
+import "math"
 
+// value should only be called at leaf / terminal nodes (game MUST be over).
+func value(b Board, player, winner Player) int {
 	// Draws are 0
-	if winner == None && isOver {
+	if winner == None {
 		return 0
 	}
 
@@ -17,6 +17,42 @@ func value(b Board, player Player) int {
 
 	// Prevent 0 value
 	return max(1, empty)
+}
+
+func Minimax(ai Player) func(b Board, player Player) int {
+	var minimax func(b Board, player Player) int
+	minimax = func(b Board, player Player) int {
+		// Terminal node
+		if isOver, winner := b.Winner(player); isOver {
+			return value(b, player, winner)
+		}
+		var other Player
+		switch player {
+		case PlayerX:
+			other = PlayerO
+		case PlayerO:
+			other = PlayerX
+		}
+
+		// Maximizing
+		if player == ai {
+			max := math.Inf(-1)
+			for _, state := range nextBoards(b, player) {
+				value := minimax(state, other)
+				max = math.Max(max, float64(value))
+			}
+			return int(max)
+		} else {
+			min := math.Inf(1)
+			for _, state := range nextBoards(b, player) {
+				value := minimax(state, other)
+				min = math.Min(min, float64(value))
+			}
+			return int(min)
+		}
+	}
+
+	return minimax
 }
 
 func min(a, b int) int {

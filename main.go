@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -29,9 +27,6 @@ func main() {
 			j := int(y) / CellSize
 			// We swap i and j because the matrix is transposed
 			g.Place(j, i)
-		}
-		if g.IsOver {
-			fmt.Println(value(g.Board, PlayerO))
 		}
 
 		g.Update()
