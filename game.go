@@ -35,7 +35,7 @@ type Game struct {
 	Winner    Player
 }
 
-type Board = [][]Player
+type Board [][]Player
 
 // NewGame is a game constructor.
 func NewGame() *Game {
