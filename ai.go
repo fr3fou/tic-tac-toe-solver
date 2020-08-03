@@ -1,8 +1,13 @@
 package main
 
 func value(b Board, player Player) int {
-	_, _ = b.Winner(player)
-	return 0
+	_, winner := b.Winner(player)
+	empty := b.EmptySpots()
+	val := 1
+	if winner != player {
+		val = -1
+	}
+	return val + empty
 }
 
 func nextBoards(b Board, player Player) []Board {
@@ -35,5 +40,4 @@ func copyBoard(src Board) Board {
 	}
 
 	return dst
-
 }
