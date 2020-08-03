@@ -29,16 +29,18 @@ const Size = 3
 // Game represents a game of TicTacToe.
 // `PlayerO` goes first.
 type Game struct {
-	Board     [Size][Size]Player
+	Board     Board
 	turnCount int
 	IsOver    bool
 	Winner    Player
 }
 
+type Board = [][]Player
+
 // NewGame is a game constructor.
 func NewGame() *Game {
 	return &Game{
-		Board: [Size][Size]Player{
+		Board: Board{
 			{None, None, None},
 			{None, None, None},
 			{None, None, None},
@@ -166,8 +168,8 @@ func all(arr []Player, player Player) bool {
 	return true
 }
 
-func transpose(arr [Size][Size]Player) [Size][Size]Player {
-	transposed := [Size][Size]Player{}
+func transpose(arr Board) Board {
+	transposed := Board{}
 
 	for i, row := range arr {
 		for j, square := range row {
