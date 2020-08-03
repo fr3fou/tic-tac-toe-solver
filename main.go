@@ -16,8 +16,10 @@ const (
 func main() {
 	g := NewGame()
 	g.Place(1, 0)
-	fmt.Println(nextBoards(g.Board, PlayerX))
-
+	boards := nextBoards(g.Board, PlayerX)
+	for _, board := range boards {
+		fmt.Println(board)
+	}
 }
 
 func _main() {

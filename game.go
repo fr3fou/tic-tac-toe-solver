@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"strings"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -36,6 +39,21 @@ type Game struct {
 }
 
 type Board [][]Player
+
+// Print prints the sudoku
+func (board Board) String() string {
+	b := &strings.Builder{}
+	for _, line := range board {
+		fmt.Fprintf(b, "+-----------+\n|")
+		for _, num := range line {
+			fmt.Fprintf(b, " %s |", num)
+		}
+		fmt.Fprintln(b)
+	}
+	fmt.Fprintln(b, "+-----------+")
+
+	return b.String()
+}
 
 // NewGame is a game constructor.
 func NewGame() *Game {
