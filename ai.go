@@ -9,8 +9,7 @@ func nextBoards(b Board, player Player) []Board {
 				continue
 			}
 
-			var board Board
-			copy(board, b)
+			board := copyBoard(b)
 
 			board[i][j] = player
 			boards = append(boards, board)
@@ -18,4 +17,18 @@ func nextBoards(b Board, player Player) []Board {
 	}
 
 	return boards
+}
+
+func copyBoard(src Board) Board {
+	dst := Board{}
+
+	for i, row := range src {
+		dst = append(dst, []Player{})
+		for _, square := range row {
+			dst[i] = append(dst[i], square)
+		}
+	}
+
+	return dst
+
 }

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -12,6 +14,13 @@ const (
 )
 
 func main() {
+	g := NewGame()
+	g.Place(1, 0)
+	fmt.Println(nextBoards(g.Board, PlayerX))
+
+}
+
+func _main() {
 	rl.InitWindow(Width, Height, "Tic Tac Toe - AI")
 	rl.SetTargetFPS(60)
 
