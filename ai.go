@@ -11,11 +11,11 @@ func value(b Board, player Player) int {
 
 	empty := b.EmptySpots()
 	if winner != player {
-		// prevent 0 value
+		// Prevent 0 value
 		return min(-1, -empty)
 	}
 
-	// prevent 0 value
+	// Prevent 0 value
 	return max(1, empty)
 }
 
