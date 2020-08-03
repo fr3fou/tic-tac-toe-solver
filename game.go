@@ -29,15 +29,6 @@ func (p Player) String() string {
 
 const Size = 3
 
-// Game represents a game of TicTacToe.
-// `PlayerO` goes first.
-type Game struct {
-	Board     Board
-	turnCount int
-	IsOver    bool
-	Winner    Player
-}
-
 type Board [][]Player
 
 // Winner checks if the game is over and returns the winning player if there is one.
@@ -116,17 +107,27 @@ func (b Board) EmptySpots() int {
 	return n
 }
 
+// Game represents a game of TicTacToe.
+type Game struct {
+	Board         Board
+	turnCount     int
+	IsOver        bool
+	Winner        Player
+	CurrentPlayer Player
+}
+
 // NewGame is a game constructor.
-func NewGame() *Game {
+func NewGame(startingPlayer Player) *Game {
 	return &Game{
 		Board: Board{
 			{None, None, None},
 			{None, None, None},
 			{None, None, None},
 		},
-		IsOver:    false,
-		Winner:    None,
-		turnCount: 0,
+		IsOver:        false,
+		Winner:        None,
+		CurrentPlayer: startingPlayer,
+		turnCount:     0,
 	}
 }
 
@@ -136,13 +137,8 @@ func (g *Game) Place(i, j int) {
 		return
 	}
 
-	candidate := PlayerO
-	if g.turnCount%2 != 0 {
-		candidate = PlayerX
-	}
-
-	g.Board[i][j] = candidate
-	g.turnCount++
+	g.Board[i][j] = g.CurrentPlayer
+	g.CurrentPlayer = otherPlayer(g.CurrentPlayer)
 }
 
 func (g *Game) Draw() {
@@ -176,11 +172,7 @@ func (g *Game) Draw() {
 
 // Update updates the state.
 func (g *Game) Update() {
-	recentPlayer := PlayerX
-	if g.turnCount%2 != 0 {
-		recentPlayer = PlayerO
-	}
-	g.IsOver, g.Winner = g.Board.Winner(recentPlayer)
+	g.IsOver, g.Winner = g.Board.Winner(otherPlayer(g.CurrentPlayer))
 }
 
 // all checks if all the variables in the array are equal to the player passed.
@@ -213,4 +205,15 @@ func transpose(board Board) Board {
 	}
 
 	return transposed
+}
+
+func otherPlayer(p Player) Player {
+	switch p {
+	case PlayerX:
+		return PlayerO
+	case PlayerO:
+		return PlayerX
+	default:
+		return None
+	}
 }
