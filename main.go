@@ -15,7 +15,7 @@ func main() {
 	rl.InitWindow(Width, Height, "Tic Tac Toe - AI")
 	rl.SetTargetFPS(60)
 
-	g := NewGame()
+	g := NewGame(PlayerO)
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
