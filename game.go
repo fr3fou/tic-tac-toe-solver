@@ -110,7 +110,6 @@ func (b Board) EmptySpots() int {
 // Game represents a game of TicTacToe.
 type Game struct {
 	Board         Board
-	turnCount     int
 	IsOver        bool
 	Winner        Player
 	CurrentPlayer Player
@@ -127,7 +126,6 @@ func NewGame(startingPlayer Player) *Game {
 		IsOver:        false,
 		Winner:        None,
 		CurrentPlayer: startingPlayer,
-		turnCount:     0,
 	}
 }
 
