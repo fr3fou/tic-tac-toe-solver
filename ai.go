@@ -19,43 +19,44 @@ func value(b Board, player, winner Player) int {
 	return max(1, empty)
 }
 
-func minimax(b Board, player Player) int {
+func minimax(b Board, ai, current Player) int {
 	// Terminal node
-	if isOver, winner := b.Winner(player); isOver {
-		return value(b, player, winner)
+	if isOver, winner := b.Winner(current); isOver {
+		return value(b, current, winner)
 	}
 
 	var other Player
-	switch player {
+	switch current {
 	case PlayerX:
 		other = PlayerO
 	case PlayerO:
 		other = PlayerX
 	}
 
-	if player == ai {
+	if current == ai {
 		// Maximizing
 		max := math.Inf(-1)
-		for _, state := range nextBoards(b, player) {
-			value := minimax(state, other)
+		for _, state := range nextBoards(b, current) {
+			value := minimax(state, ai, other)
 			max = math.Max(max, float64(value))
 		}
 		return int(max)
 	} else {
 		// Minimizing
 		min := math.Inf(1)
-		for _, state := range nextBoards(b, player) {
-			value := minimax(state, other)
+		for _, state := range nextBoards(b, current) {
+			value := minimax(state, ai, other)
 			min = math.Min(min, float64(value))
 		}
 		return int(min)
 	}
 }
+
 func Minimax(ai Player, g *Game) {
 	max := math.Inf(-1)
 	bestPos := Pos{}
 	for pos, state := range nextBoards(g.Board, ai) {
-		value := minimax(state, ai)
+		value := minimax(state, ai, ai)
 		if float64(value) > max {
 			bestPos = pos
 		}
