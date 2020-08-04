@@ -24,16 +24,10 @@ func value(b Board, player, winner Player) int {
 func minimax(b Board, ai, current Player) int {
 	// Terminal node
 	if isOver, winner := b.Winner(current); isOver {
-		return value(b, current, winner)
+		return value(b, ai, winner)
 	}
 
-	var other Player
-	switch current {
-	case PlayerX:
-		other = PlayerO
-	case PlayerO:
-		other = PlayerX
-	}
+	other := otherPlayer(current)
 
 	if current == ai {
 		// Maximizing
