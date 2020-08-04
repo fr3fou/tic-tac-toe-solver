@@ -15,6 +15,8 @@ func main() {
 	rl.InitWindow(Width, Height, "Tic Tac Toe - AI")
 	rl.SetTargetFPS(60)
 
+	user := PlayerO
+	ai := PlayerX
 	g := NewGame(PlayerO)
 
 	for !rl.WindowShouldClose() {
@@ -24,7 +26,7 @@ func main() {
 		g.Draw()
 
 		if !g.IsOver {
-			if rl.IsMouseButtonReleased(rl.MouseLeftButton) && g.CurrentPlayer == PlayerO {
+			if rl.IsMouseButtonReleased(rl.MouseLeftButton) && g.CurrentPlayer == user {
 				mousePos := rl.GetMousePosition()
 				x := mousePos.X
 				y := mousePos.Y
@@ -32,8 +34,8 @@ func main() {
 				j := int(y) / CellSize
 				// We swap i and j because the matrix is transposed
 				g.Place(j, i)
-			} else if g.CurrentPlayer == PlayerX {
-				Minimax(PlayerX, g)
+			} else if g.CurrentPlayer == ai {
+				Minimax(ai, g)
 			}
 		}
 
