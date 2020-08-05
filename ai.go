@@ -1,48 +1,45 @@
 package main
 
-import (
-	"math"
-)
+import "math"
 
 // value should only be called at leaf / terminal nodes (game MUST be over).
-func value(b Board, player, winner Player) int {
-	// Draws are 0
-	if winner == None {
-		return 0
+func value(b Board, aiWon bool) int {
+	spots := b.EmptySpots()
+
+	if aiWon {
+		return max(1, spots)
 	}
 
-	empty := b.EmptySpots()
-	if winner != player {
-		// Prevent 0 value
-		return min(-1, -empty)
-	}
-
-	// Prevent 0 value
-	return max(1, empty)
+	return min(-1, -spots)
 }
 
 func minimax(b Board, ai, current Player) int {
-	// Terminal node
-	if isOver, winner := b.Winner(current); isOver {
-		return value(b, ai, winner)
+	other := otherPlayer(current)
+
+	if b.IsWinner(other) {
+		return value(b, ai == other)
 	}
 
-	other := otherPlayer(current)
+	// Draw is 0
+	if b.EmptySpots() == 0 {
+		return 0
+	}
 
 	if current == ai {
 		// Maximizing
 		max := math.Inf(-1)
 		for _, state := range nextBoards(b, current) {
-			value := minimax(state.Board, ai, other)
-			max = math.Max(max, float64(value))
+			value := float64(minimax(state.Board, ai, other))
+			max = math.Max(max, value)
 		}
+
 		return int(max)
 	} else {
 		// Minimizing
-		min := math.Inf(1)
+		min := math.Inf(+1)
 		for _, state := range nextBoards(b, current) {
-			value := minimax(state.Board, ai, other)
-			min = math.Min(min, float64(value))
+			value := float64(minimax(state.Board, ai, other))
+			min = math.Min(min, value)
 		}
 		return int(min)
 	}
@@ -54,11 +51,10 @@ func Minimax(ai Player, g *Game) {
 	for _, state := range nextBoards(g.Board, ai) {
 		value := float64(minimax(state.Board, ai, ai))
 		if value > max {
-			bestState = state
 			max = value
+			bestState = state
 		}
 	}
-
 	g.Place(bestState.X, bestState.Y)
 }
 
