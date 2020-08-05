@@ -31,53 +31,49 @@ const Size = 3
 
 type Board [][]Player
 
-// Winner checks if the game is over and returns the winning player if there is one.
-// true and either `PlayerX` or `PlayerO` are returned if there is a winner.
-// true and `None` are returned if there is a draw.
-// false and `None` are returned if the game isn't over yet.
-func (b Board) Winner(recentPlayer Player) (bool, Player) {
+// IsWinner returns if the player passed is a winner or not
+func (b Board) IsWinner(player Player) bool {
 	// Only the most recently played player can have made a winning placement
 
 	// Horizontal check
 	for _, row := range b {
-		if all(row[:], recentPlayer) {
-			return true, recentPlayer
+		if all(row[:], player) {
+			return true
 		}
 	}
 
 	// Vertical check
 	for _, row := range transpose(b) {
-		if all(row[:], recentPlayer) {
-			return true, recentPlayer
+		if all(row[:], player) {
+			return true
 		}
 	}
 
 	// Primary diagonal
 	wonDiagonally := true
 	for i := 0; i < len(b); i++ {
-		if b[i][i] != recentPlayer {
+		if b[i][i] != player {
 			wonDiagonally = false
 			break
 		}
 	}
 	if wonDiagonally {
-		return true, recentPlayer
+		return true
 	}
 
 	// Secondary diagonal
 	wonDiagonally = true
 	for i := len(b) - 1; i >= 0; i-- {
-		if b[i][(Size-1)-i] != recentPlayer {
+		if b[i][(Size-1)-i] != player {
 			wonDiagonally = false
 			break
 		}
 	}
 	if wonDiagonally {
-		return true, recentPlayer
+		return true
 	}
 
-	draw := b.EmptySpots() == 0
-	return draw, None
+	return false
 }
 
 // Print prints the sudoku
@@ -170,7 +166,15 @@ func (g *Game) Draw() {
 
 // Update updates the state.
 func (g *Game) Update() {
-	g.IsOver, g.Winner = g.Board.Winner(otherPlayer(g.CurrentPlayer))
+	previousPlayer := otherPlayer(g.CurrentPlayer)
+
+	didWin := g.Board.IsWinner(previousPlayer)
+	isFull := g.Board.EmptySpots() == 0
+
+	g.IsOver = didWin || isFull
+	if didWin {
+		g.Winner = previousPlayer
+	}
 }
 
 // all checks if all the variables in the array are equal to the player passed.
