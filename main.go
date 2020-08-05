@@ -17,7 +17,7 @@ func main() {
 
 	user := PlayerO
 	ai := PlayerX
-	g := NewGame(PlayerO)
+	g := NewGame(ai)
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
