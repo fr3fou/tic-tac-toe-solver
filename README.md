@@ -12,4 +12,9 @@ A Tic-Tac-Toe implementation and AI, using Raylib for the GUI and Minimax + Alph
 
 ## References
 
+- <https://imada.sdu.dk/~marco/Teaching/AY2011-2012/DM828/Slides/dm828-lec17.pdf>
 - <https://towardsdatascience.com/game-ais-with-minimax-and-monte-carlo-tree-search-af2a177361b0>
+- <https://brilliant.org/wiki/minimax/>
+- <https://brilliant.org/wiki/nash-equilibrium/>
+- <https://brilliant.org/wiki/prisoners-dilemma/>
+- <https://www.educba.com/minimax-algorithm/>
