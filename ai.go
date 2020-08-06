@@ -32,7 +32,6 @@ func minimax(b Board, ai, current Player) int {
 			value := float64(minimax(state.Board, ai, other))
 			max = math.Max(max, value)
 		}
-
 		return int(max)
 	} else {
 		// Minimizing
