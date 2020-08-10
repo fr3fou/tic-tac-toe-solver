@@ -47,8 +47,9 @@ func minimax(b Board, ai, current Player) int {
 func Minimax(ai Player, g *Game) {
 	max := math.Inf(-1)
 	bestState := State{}
+	other := otherPlayer(ai)
 	for _, state := range nextBoards(g.Board, ai) {
-		value := float64(minimax(state.Board, ai, ai))
+		value := float64(minimax(state.Board, ai, other))
 		if value > max {
 			max = value
 			bestState = state
