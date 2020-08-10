@@ -6,7 +6,7 @@ A Tic-Tac-Toe implementation and AI, using Raylib for the GUI and Minimax + Alph
 
 - [x] Core game
 - [x] Rendering with Raylib
-- [ ] Minimax
+- [x] Minimax
 - [ ] Alpha-Beta Pruning
 - [ ] Symmetry reduction
 
