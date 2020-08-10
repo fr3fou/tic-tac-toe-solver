@@ -13,7 +13,7 @@ func value(b Board, aiWon bool) int {
 	return min(-1, -spots)
 }
 
-func minimax(b Board, ai, current Player) int {
+func minimax(b Board, ai, current Player, alpha, beta float64) int {
 	other := otherPlayer(current)
 
 	if b.IsWinner(other) {
@@ -29,16 +29,24 @@ func minimax(b Board, ai, current Player) int {
 		// Maximizing
 		max := math.Inf(-1)
 		for _, state := range nextBoards(b, current) {
-			value := float64(minimax(state.Board, ai, other))
+			value := float64(minimax(state.Board, ai, other, alpha, beta))
 			max = math.Max(max, value)
+			alpha = math.Max(value, alpha)
+			if alpha >= beta {
+				break
+			}
 		}
 		return int(max)
 	} else {
 		// Minimizing
 		min := math.Inf(+1)
 		for _, state := range nextBoards(b, current) {
-			value := float64(minimax(state.Board, ai, other))
+			value := float64(minimax(state.Board, ai, other, alpha, beta))
 			min = math.Min(min, value)
+			beta = math.Min(value, beta)
+			if alpha >= beta {
+				break
+			}
 		}
 		return int(min)
 	}
@@ -49,7 +57,7 @@ func Minimax(ai Player, g *Game) {
 	bestState := State{}
 	other := otherPlayer(ai)
 	for _, state := range nextBoards(g.Board, ai) {
-		value := float64(minimax(state.Board, ai, other))
+		value := float64(minimax(state.Board, ai, other, math.Inf(-1), math.Inf(1)))
 		if value > max {
 			max = value
 			bestState = state
