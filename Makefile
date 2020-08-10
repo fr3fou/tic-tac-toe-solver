@@ -1,2 +1,2 @@
 static-build:
-	go build -a -ldflags '-extldflags "-static"' .
+	go build -ldflags '-extldflags "-static"' .
