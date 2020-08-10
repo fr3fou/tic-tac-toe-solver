@@ -31,7 +31,7 @@ func minimax(b Board, ai, current Player, alpha, beta float64) int {
 		for _, state := range nextBoards(b, current) {
 			value := float64(minimax(state.Board, ai, other, alpha, beta))
 			max = math.Max(max, value)
-			alpha = math.Max(value, alpha)
+			alpha = math.Max(max, alpha)
 			if alpha >= beta {
 				break
 			}
@@ -43,7 +43,7 @@ func minimax(b Board, ai, current Player, alpha, beta float64) int {
 		for _, state := range nextBoards(b, current) {
 			value := float64(minimax(state.Board, ai, other, alpha, beta))
 			min = math.Min(min, value)
-			beta = math.Min(value, beta)
+			beta = math.Min(min, beta)
 			if alpha >= beta {
 				break
 			}
