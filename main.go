@@ -8,7 +8,7 @@ const (
 	LineThickness = 2
 	Width         = 800 + LineThickness
 	Height        = 800 + LineThickness
-	CellSize      = (Width - LineThickness*2) / 3
+	CellSize      = (Width - LineThickness*2) / Size
 )
 
 func main() {
