@@ -1,5 +1,7 @@
 # tic-tac-toe-ai
 
+You can read more about this [here](https://simo.sh/projects/tic-tac-toe-ai)
+
 A Tic-Tac-Toe implementation and AI, using Raylib for the GUI and Minimax + Alpha-Beta pruning for the AI.
 
 ## TODO
